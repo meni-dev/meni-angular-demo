@@ -1,12 +1,12 @@
 <nav class="navbar navbar-light bg-primary">
-    <div class="container-fluid">
-        <h1 style="color: aliceblue">Angular CRUD</h1>
+    <div class="container-fluid ">
+        <h1 style="color: aliceblue ">Angular CRUD</h1>
         <div class="d-flex">
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Employee</button>
         </div>
     </div>
 </nav>
-<table class="table mt-3">
+<table class="table mt-3 justify-content-center">
     <thead>
         <tr>
             <td scope="col">Employee Id</td>
@@ -19,16 +19,17 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td>Saran</td>
-            <td>Saravanan</td>
-            <td>saran@gmail.com</td>
-            <td>9003322148</td>
-            <td>$50000</td>
+        <tr *ngFor="let row of employeeData">
+            <td>{{row.id}}</td>
+            <td>{{row.Firstname}}</td>
+            <td>{{row.Lastname}}</td>
+            <td>{{row.EmailId}}</td>
+            <td>{{row.Mobilenumber}}</td>
+            <td>{{row.Salary}}</td>
             <td>
-                <button class="btn btn-info">Edit</button>
-                <button class="btn btn-danger mx-3">Delete</button>
+                <button (click)="onEdit(row)" class="btn btn-info" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">Edit</button>
+                <button (click)="deleteEmployee(row)" class="btn btn-danger mx-3">Delete</button>
             </td>
         </tr>
     </tbody>
@@ -61,7 +62,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Mobileno</label>
-                        <input type="text" formControlName="Mobileno" class="form-control" id="exampleInputPassword1">
+                        <input type="text" formControlName="Mobilenumber" class="form-control"
+                            id="exampleInputPassword1">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Salary</label>
@@ -71,8 +73,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" (click)="postEmployeeDetails()" class="btn btn-primary">Add</button>
+                <button type="button" (click)="updateEmployeeDetails()" class="btn btn-primary">Update</button>
             </div>
         </div>
     </div>

@@ -13,7 +13,7 @@ export class EmployeeDashboardComponent implements OnInit {
 
   formValue!: FormGroup;
   employeeModelObj: EmployeeModel = new EmployeeModel();
-
+  employeeData!: any;
 
   constructor(private formBuilder: FormBuilder, private api: ApiService) {
 
@@ -24,9 +24,10 @@ export class EmployeeDashboardComponent implements OnInit {
       Firstname: [''],
       Lastname: [''],
       EmailId: [''],
-      Mobileno: [''],
+      Mobilenumber: [''],
       Salary: ['']
     })
+    this.getAllemployee();
   }
   postEmployeeDetails() {
 
@@ -40,11 +41,50 @@ export class EmployeeDashboardComponent implements OnInit {
       .subscribe(res => {
         console.log(res);
         alert("Employee added successfully")
+        this.formValue.reset();
+        let ref = document.getElementById('cancel');
+        ref?.click();
+
+        this.getAllemployee();
       },
 
         err => {
           alert("Something went wrong")
         })
+
+  }
+  getAllemployee() {
+    this.api.getemployee().subscribe(res => {
+      this.employeeData = res;
+    })
+  }
+  deleteEmployee(row: any) {
+    this.api.deleteEmployee(row.id).subscribe(res => {
+      alert("Employee Deleted");
+      this.getAllemployee();
+    })
+  }
+  onEdit(row: any) {
+    this.employeeModelObj.id = row.id;
+    this.formValue.controls['Firstname'].setValue(row.Firstname);
+    this.formValue.controls['Lastname'].setValue(row.Lastname);
+    this.formValue.controls['EmailId'].setValue(row.EmailId);
+    this.formValue.controls['Mobilenumber'].setValue(row.Mobilenumber);
+    this.formValue.controls['Salary'].setValue(row.Salary);
+  }
+  updateEmployeeDetails() {
+    this.employeeModelObj.Firstname = this.formValue.value.Firstname;
+    this.employeeModelObj.Lastname = this.formValue.value.Lastname;
+    this.employeeModelObj.EmailId = this.formValue.value.EmailId;
+    this.employeeModelObj.Mobilenumber = this.formValue.value.Mobilenumber;
+    this.employeeModelObj.Salary = this.formValue.value.Salary;
+    this.api.updateEmployee(this.employeeModelObj, this.employeeModelObj.id).subscribe(res => {
+      alert("Updated successfully")
+      this.formValue.reset();
+      let ref = document.getElementById('cancel');
+      ref?.click();
+      this.getAllemployee();
+    })
 
   }
 }
