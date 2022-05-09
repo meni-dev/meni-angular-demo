@@ -14,6 +14,10 @@ export class EmployeeDashboardComponent implements OnInit {
   formValue!: FormGroup;
   employeeModelObj: EmployeeModel = new EmployeeModel();
   employeeData!: any;
+  isSuccessAdd: boolean = false;
+  isSuccessUpdate: boolean = false;
+
+
 
   constructor(private formBuilder: FormBuilder, private api: ApiService) {
 
@@ -65,6 +69,8 @@ export class EmployeeDashboardComponent implements OnInit {
     })
   }
   onEdit(row: any) {
+    this.isSuccessAdd = false;
+    this.isSuccessUpdate = true;
     this.employeeModelObj.id = row.id;
     this.formValue.controls['Firstname'].setValue(row.Firstname);
     this.formValue.controls['Lastname'].setValue(row.Lastname);
@@ -73,6 +79,7 @@ export class EmployeeDashboardComponent implements OnInit {
     this.formValue.controls['Salary'].setValue(row.Salary);
   }
   updateEmployeeDetails() {
+
     this.employeeModelObj.Firstname = this.formValue.value.Firstname;
     this.employeeModelObj.Lastname = this.formValue.value.Lastname;
     this.employeeModelObj.EmailId = this.formValue.value.EmailId;
@@ -86,5 +93,10 @@ export class EmployeeDashboardComponent implements OnInit {
       this.getAllemployee();
     })
 
+  }
+
+  showAddButton() {
+    this.isSuccessAdd = true;
+    this.isSuccessUpdate = false;
   }
 }
