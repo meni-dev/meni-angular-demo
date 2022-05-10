@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { DtDemoComponent } from './dt-demo/dt-demo.component';
 import { EmployeeDashboardComponent } from './employee-dashboard/employee-dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 
 
 const routes: Routes = [
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
     {
         path: 'login',
         component: LoginComponent
@@ -17,6 +19,10 @@ const routes: Routes = [
     {
         path: 'dashboard',
         component: EmployeeDashboardComponent
+    },
+    {
+        path: 'dt-demo', component: DtDemoComponent
+
     }
 ];
 

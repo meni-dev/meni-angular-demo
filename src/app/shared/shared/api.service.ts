@@ -8,6 +8,8 @@ import { map } from 'rxjs/operators'
 export class ApiService {
   domain: string = 'http://localhost:3000';
   constructor(private http: HttpClient) { }
+
+
   postemployee(data: any) {
     console.log(JSON.stringify(data))
     return this.http.post(this.domain + "/posts", data)

@@ -7,7 +7,12 @@
         </div>
     </div>
 </nav>
-<table class="table mt-3 justify-content-center">
+
+<br />
+<br />
+<br />
+<br />
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
     <thead>
         <tr>
             <td scope="col">Employee Id</td>
@@ -20,6 +25,7 @@
         </tr>
     </thead>
     <tbody>
+
         <tr *ngFor="let row of employeeData">
             <td>{{row.id}}</td>
             <td>{{row.Firstname}}</td>
@@ -33,6 +39,7 @@
                 <button (click)="deleteEmployee(row)" class="btn btn-danger mx-3">Delete</button>
             </td>
         </tr>
+
     </tbody>
 </table>
 

@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApiService } from '../shared/shared/api.service';
 import { EmployeeModel } from './employee-dashboard module';
+import { Subject } from 'rxjs';
+
 
 @Component({
   selector: 'app-employee-dashboard',
@@ -17,13 +19,19 @@ export class EmployeeDashboardComponent implements OnInit {
   isSuccessAdd: boolean = false;
   isSuccessUpdate: boolean = false;
 
-
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject<any>();
 
   constructor(private formBuilder: FormBuilder, private api: ApiService) {
 
   }
 
   ngOnInit(): void {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 2
+    };
+
     this.formValue = this.formBuilder.group({
       Firstname: [''],
       Lastname: [''],
@@ -60,6 +68,7 @@ export class EmployeeDashboardComponent implements OnInit {
   getAllemployee() {
     this.api.getemployee().subscribe(res => {
       this.employeeData = res;
+      this.dtTrigger.next(res);
     })
   }
   deleteEmployee(row: any) {
@@ -98,5 +107,10 @@ export class EmployeeDashboardComponent implements OnInit {
   showAddButton() {
     this.isSuccessAdd = true;
     this.isSuccessUpdate = false;
+  }
+
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
   }
 }

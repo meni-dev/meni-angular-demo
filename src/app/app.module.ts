@@ -8,20 +8,24 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { AppRoutingModule } from './app-routing.module';
+import { DtDemoComponent } from './dt-demo/dt-demo.component';
+import { DataTablesModule } from "angular-datatables";
 
 @NgModule({
   declarations: [
     AppComponent,
     EmployeeDashboardComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    DtDemoComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DataTablesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
