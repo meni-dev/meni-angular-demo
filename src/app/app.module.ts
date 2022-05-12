@@ -10,6 +10,12 @@ import { SignupComponent } from './signup/signup.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DtDemoComponent } from './dt-demo/dt-demo.component';
 import { DataTablesModule } from "angular-datatables";
+import { DtDemoServersideComponent } from './dt-demo-serverside/dt-demo-serverside.component';
+import { DtTableMaterialComponent } from './dt-table-material/dt-table-material.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -17,7 +23,9 @@ import { DataTablesModule } from "angular-datatables";
     EmployeeDashboardComponent,
     LoginComponent,
     SignupComponent,
-    DtDemoComponent
+    DtDemoComponent,
+    DtDemoServersideComponent,
+    DtTableMaterialComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +33,11 @@ import { DataTablesModule } from "angular-datatables";
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    DataTablesModule
+    DataTablesModule,
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

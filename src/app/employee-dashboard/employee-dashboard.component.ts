@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApiService } from '../shared/shared/api.service';
 import { EmployeeModel } from './employee-dashboard module';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { DataTableDirective } from 'angular-datatables';
+import { map } from 'rxjs/operators'
 
 
 @Component({
@@ -12,14 +14,16 @@ import { Subject } from 'rxjs';
   styleUrls: ['./employee-dashboard.component.css']
 })
 export class EmployeeDashboardComponent implements OnInit {
+  @ViewChild(DataTableDirective, { static: false }) datatableElement!: DataTableDirective;
 
+  dtOptions: DataTables.Settings = {};
   formValue!: FormGroup;
   employeeModelObj: EmployeeModel = new EmployeeModel();
   employeeData!: any;
   isSuccessAdd: boolean = false;
   isSuccessUpdate: boolean = false;
 
-  dtOptions: DataTables.Settings = {};
+  // if anything changes
   dtTrigger: Subject<any> = new Subject<any>();
 
   constructor(private formBuilder: FormBuilder, private api: ApiService) {
@@ -27,9 +31,26 @@ export class EmployeeDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    let that = this;
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 2
+      pageLength: 2,
+      serverSide: true,
+      processing: true,
+      autoWidth: false,
+      ajax: function (data, callback) {
+        that.getAllemployee().subscribe((res: any) => {
+          console.log(res)
+          that.employeeData = res;
+          callback({
+            recordsTotal: res.length,
+            recordsFiltered: 2,
+            data: []
+          });
+        })
+
+      }
     };
 
     this.formValue = this.formBuilder.group({
@@ -39,8 +60,10 @@ export class EmployeeDashboardComponent implements OnInit {
       Mobilenumber: [''],
       Salary: ['']
     })
-    this.getAllemployee();
   }
+
+
+
   postEmployeeDetails() {
 
     console.log(this.formValue.value.Firstname + " fn")
@@ -65,11 +88,10 @@ export class EmployeeDashboardComponent implements OnInit {
         })
 
   }
-  getAllemployee() {
-    this.api.getemployee().subscribe(res => {
-      this.employeeData = res;
-      this.dtTrigger.next(res);
-    })
+  getAllemployee(): Observable<any> {
+    return this.api.getemployee().pipe(map((res: any) => {
+      return res;
+    }))
   }
   deleteEmployee(row: any) {
     this.api.deleteEmployee(row.id).subscribe(res => {
@@ -111,6 +133,31 @@ export class EmployeeDashboardComponent implements OnInit {
 
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
-    this.dtTrigger.unsubscribe();
+    //this.dtTrigger.unsubscribe();
   }
+
+
+  // ngAfterViewInit(): void {
+  //   this.dtTrigger.next(this.employeeData);
+  //   console.log(this.datatableElement.dtInstance)
+
+  //   this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+  //     dtInstance.columns().every(function () {
+  //       const that = this;
+
+  //       $('input', this.footer()).on('keyup change', function ($event) {
+  //         debugger;
+  //         console.log((<HTMLInputElement>$event.target).value)
+  //         console.log(that);
+
+  //         var text = (<HTMLInputElement>$event.target).value;
+  //         if (that.search() !== text) {
+  //           that
+  //             .search(text)
+  //             .draw();
+  //         }
+  //       });
+  //     });
+  //   });
+  // }
 }

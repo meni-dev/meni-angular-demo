@@ -12,7 +12,7 @@
 <br />
 <br />
 <br />
-<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+<table datatable [dtOptions]="dtOptions" class="row-border hover">
     <thead>
         <tr>
             <td scope="col">Employee Id</td>
@@ -24,6 +24,13 @@
             <td scope="col">Action</td>
         </tr>
     </thead>
+    <!-- <tfoot style="display: table-header-group;">
+        <tr>
+            <th></th>
+            <th><input type="text" placeholder="Search first name" name="search-firstname" /></th>
+            <th><input type="text" placeholder="Search last name" name="search-last-name" /></th>
+        </tr>
+    </tfoot> -->
     <tbody>
 
         <tr *ngFor="let row of employeeData">

@@ -15,11 +15,14 @@ export class DtDemoComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.dtOptions = {
+
       pagingType: 'full_numbers',
-      pageLength: 2
+      pageLength: 5,
+      processing: true
     };
   }
   ngAfterViewInit(): void {
+    console.log('obj' + this.datatableElement.dtInstance)
     this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.columns().every(function () {
         const that = this;
